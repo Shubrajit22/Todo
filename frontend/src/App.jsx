@@ -3,13 +3,19 @@ import axios from 'axios';
 
 const App = () => {
   const [todos, setTodos] = useState([{}]);
-
+  const [count,setCount] = useState(0);
+ const [input,setInput] = useState("");
+ function onChange(e){
+  setInput(e.target.value);
+}
   async function create() {
-    const newTodo = document.getElementById("todo").value;
+   
+    
     const response = await axios.post("http://localhost:3000/create-todo", {
-      title:newTodo
+      title:input
     }); // Use POST if needed
     alert("created");
+    setCount(c=>c+1);
   }
 
   useEffect(() => {
@@ -23,11 +29,11 @@ const App = () => {
     };
 
     fetchTodos();
-  }, [todos]);
+  }, [count]);
 
   return (
     <div>
-      <input id="todo" type="text" />
+      <input id="todo" type="text" onChange={onChange}/>
       <button onClick={create}>Create</button>
       <ul>
         {todos.map((todo) => (
